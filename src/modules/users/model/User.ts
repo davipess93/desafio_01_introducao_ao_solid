@@ -1,7 +1,7 @@
 import { v4 as uuidV4 } from "uuid";
 
 class User {
-  id?: string;
+  id: string;
   name: string;
   admin: boolean;
   email: string;
@@ -16,6 +16,7 @@ class User {
     this.admin = false;
     this.created_at = new Date();
     this.updated_at = new Date();
+
   }
 }
 
