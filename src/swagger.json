@@ -1,0 +1,326 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "API para registro de usuário",
+    "description": "API para criar usuário e gerenciar o nível de acesso",
+    "version": "1.0.0",
+    "contact": "davialvespessoa@gmail.com"
+  },
+  "paths": {
+    "/users": {
+      "post": {
+        "tags": ["User"],
+        "summary": "Criar usuário",
+        "description": "Criar um novo usuário",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "name": "John Doe",
+                  "email": "johndoe@mail.com"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Usuário cirado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "admin": {
+                      "type": "boolean"
+                    },
+                    "id": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "created_at": {
+                      "type": "string"
+                    },
+                    "updated_at": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "admin": false,
+                    "id": "c5c739c0-4576-47a4-82f5-8b314d2eba21",
+                    "name": "Rocketseat",
+                    "email": "oi@rocketseat.com.br",
+                    "created_at": "2021-03-21T20:32:40.759Z",
+                    "updated_at": "2021-03-21T20:32:40.759Z"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Usuário com email já cadastrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": "string"
+                  },
+                  "example": {
+                    "error": "Já existe um usuário com o email cadastrado"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": ["User"],
+        "summary": "Listar usuários",
+        "description": "API para listar todos os usuários",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "user_id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operação realizada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "fomart": "uuid"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "admin": {
+                      "type": "boolean"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "created_at": {
+                      "type": "date"
+                    },
+                    "updated_at": {
+                      "type": "date"
+                    }
+                  },
+                  "example": [
+                    {
+                      "admin": true,
+                      "id": "c5c739c0-4576-47a4-82f5-8b314d2eba21",
+                      "name": "Rocketseat",
+                      "email": "oi@rocketseat.com.br",
+                      "created_at": "2021-03-21T20:32:40.759Z",
+                      "updated_at": "2021-03-21T20:32:40.759Z"
+                    },
+                    {
+                      "admin": false,
+                      "id": "d32e9e4e-43cd-4f64-a393-4f0158c9e348",
+                      "name": "Vinícius Fraga",
+                      "email": "vinicius.fraga@rocketseat.com.br",
+                      "created_at": "2021-03-10T23:14:43.081Z",
+                      "updated_at": "2021-03-10T23:14:43.081Z"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Usuário sem permissão ou usuário não encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Usuário sem permissão ou usuário não encontrado"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{user_id}": {
+      "get": {
+        "tags": ["User"],
+        "summary": "Detalhes do usuário",
+        "description": "Mostrar detalhes de um usuário",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "user_id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "fomart": "uuid"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "admin": {
+                      "type": "boolean"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "created_at": {
+                      "type": "date"
+                    },
+                    "updated_at": {
+                      "type": "date"
+                    }
+                  },
+                  "example": {
+                    "admin": true,
+                    "id": "c5c739c0-4576-47a4-82f5-8b314d2eba21",
+                    "name": "Rocketseat",
+                    "email": "oi@rocketseat.com.br",
+                    "created_at": "2021-03-21T20:32:40.759Z",
+                    "updated_at": "2021-03-21T20:32:40.759Z"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Usuário não encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Usuário não encontrado"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{user_id}/admin": {
+      "patch": {
+        "tags": ["User"],
+        "summary": "Tornar usuário admin",
+        "description": "Dar a um usuário permissões de administrador",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "user_id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "reponses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "fomart": "uuid"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "admin": {
+                      "type": "boolean"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "created_at": {
+                      "type": "date"
+                    },
+                    "updated_at": {
+                      "type": "date"
+                    }
+                  },
+                  "example": {
+                    "admin": true,
+                    "id": "c5c739c0-4576-47a4-82f5-8b314d2eba21",
+                    "name": "Rocketseat",
+                    "email": "oi@rocketseat.com.br",
+                    "created_at": "2021-03-21T20:32:40.759Z",
+                    "updated_at": "2021-03-21T20:32:40.759Z"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Usuário não encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Usuário não encontrado"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
